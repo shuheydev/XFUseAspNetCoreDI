@@ -13,7 +13,7 @@
             FontSize="Large"
             Text="{Binding Message}"
             TextColor="Red" />
-        <!--<Button Command="{Binding GetPeopleCommand}" Text="Get People" />
+        <Button Command="{Binding GetPeopleCommand}" Text="Get People" />
         <CollectionView ItemsSource="{Binding People}">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" />
@@ -33,8 +33,7 @@
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>-->
+        </CollectionView>
     </StackLayout>
-
 
 </ContentPage>

@@ -43,6 +43,7 @@ namespace XFUseAspNetCoreDI
 
         static void ConfigureServices(HostBuilderContext ctx, IServiceCollection services)
         {
+            //開発と本番で登録するクラスを切り替える
             if(ctx.HostingEnvironment.IsDevelopment())
             {
                 services.AddSingleton<IDataService, MockDataService>();
