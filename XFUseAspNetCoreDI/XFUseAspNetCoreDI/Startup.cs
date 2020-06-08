@@ -15,12 +15,18 @@ namespace XFUseAspNetCoreDI
     public class Startup
     {
         public static IServiceProvider ServiceProvider { get; set; }
-        public static void Init()
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nativeConfigureServices">ネイティブ側のConfigureServiceメソッドが渡される</param>
+        public static void Init(Action<HostBuilderContext, IServiceCollection> nativeConfigureServices)
         {
             var a = Assembly.GetExecutingAssembly();
             using var stream = a.GetManifestResourceStream("XFUseAspNetCoreDI.appsettings.json");
 
-            var host = new HostBuilder().ConfigureHostConfiguration(c =>
+            var host = new HostBuilder()
+                .ConfigureHostConfiguration(c =>
                 {
                     //これは?
                     c.AddCommandLine(new string[] { $"ContentRoot={FileSystem.AppDataDirectory}" });
@@ -30,21 +36,24 @@ namespace XFUseAspNetCoreDI
                 })
                 .ConfigureServices((c, x) =>
                 {
-
+                    //プラットフォーム固有機能のDIを行うためのコールバックを実行
+                    nativeConfigureServices(c, x);
                     ConfigureServices(c, x);
                 })
-                .ConfigureLogging(l=>l.AddConsole(o=> {
-                    o.DisableColors = true;
-                }))
                 .Build();
 
             ServiceProvider = host.Services;
         }
 
+        /// <summary>
+        /// プラットフォーム固有ではないサービスのDIはこちら
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <param name="services"></param>
         static void ConfigureServices(HostBuilderContext ctx, IServiceCollection services)
         {
             //開発と本番で登録するクラスを切り替える
-            if(ctx.HostingEnvironment.IsDevelopment())
+            if (ctx.HostingEnvironment.IsDevelopment())
             {
                 services.AddSingleton<IDataService, MockDataService>();
             }

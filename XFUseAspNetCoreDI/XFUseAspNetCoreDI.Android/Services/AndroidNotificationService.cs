@@ -14,7 +14,6 @@ using Android.Widget;
 using XFUseAspNetCoreDI.Services;
 using AndroidApp=Android.App.Application;
 
-[assembly:Xamarin.Forms.Dependency(typeof(XFUseAspNetCoreDI.Droid.Services.AndroidNotificationService))]
 namespace XFUseAspNetCoreDI.Droid.Services
 {
     public class AndroidNotificationService : INotificationService
