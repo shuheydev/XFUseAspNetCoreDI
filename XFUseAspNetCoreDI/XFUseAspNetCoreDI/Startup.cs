@@ -10,6 +10,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using XFUseAspNetCoreDI.Services;
 using XFUseAspNetCoreDI.ViewModels;
+using XFUseAspNetCoreDI.Views;
 
 namespace XFUseAspNetCoreDI
 {

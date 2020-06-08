@@ -18,8 +18,6 @@ namespace XFUseAspNetCoreDI
         {
             InitializeComponent();
 
-            //ServiceProviderからMainPageのインスタンスを取得
-            //MainPage = Startup.ServiceProvider.GetService<MainPage>();//Xamarin.Forms.Xamlに定義されてる拡張メソッドGetService<T>
             MainPage = startupPage;
         }
 

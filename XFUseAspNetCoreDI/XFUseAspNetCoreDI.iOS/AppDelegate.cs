@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using UIKit;
+using XFUseAspNetCoreDI.iOS.Services;
+using XFUseAspNetCoreDI.Services;
 
 namespace XFUseAspNetCoreDI.iOS
 {
@@ -23,9 +27,14 @@ namespace XFUseAspNetCoreDI.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+            LoadApplication(Startup.Init(ConfigureServices));
 
             return base.FinishedLaunching(app, options);
+        }
+
+        private void ConfigureServices(HostBuilderContext ctx, IServiceCollection services)
+        {
+
         }
     }
 }
