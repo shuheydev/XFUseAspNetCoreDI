@@ -27,10 +27,7 @@ namespace XFUseAspNetCoreDI.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
-            //セットアップ
-            Startup.Init(ConfigureServices);
-
-            LoadApplication(new App());
+            LoadApplication(Startup.Init(ConfigureServices));
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
@@ -44,7 +41,7 @@ namespace XFUseAspNetCoreDI.Droid
         /// </summary>
         /// <param name="ctx"></param>
         /// <param name="services"></param>
-        private void ConfigureServices(HostBuilderContext ctx,IServiceCollection services)
+        private void ConfigureServices(HostBuilderContext ctx, IServiceCollection services)
         {
             //ここにDIしたいクラスを追加する
             //今回は通知機能

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 using XFUseAspNetCoreDI.Services;
 using XFUseAspNetCoreDI.ViewModels;
 
@@ -20,7 +21,7 @@ namespace XFUseAspNetCoreDI
         /// 
         /// </summary>
         /// <param name="nativeConfigureServices">ネイティブ側のConfigureServiceメソッドが渡される</param>
-        public static void Init(Action<HostBuilderContext, IServiceCollection> nativeConfigureServices)
+        public static App Init(Action<HostBuilderContext, IServiceCollection> nativeConfigureServices)
         {
             var a = Assembly.GetExecutingAssembly();
             using var stream = a.GetManifestResourceStream("XFUseAspNetCoreDI.appsettings.json");
@@ -43,6 +44,8 @@ namespace XFUseAspNetCoreDI
                 .Build();
 
             ServiceProvider = host.Services;
+
+            return ServiceProvider.GetService<App>();
         }
 
         /// <summary>
@@ -63,7 +66,8 @@ namespace XFUseAspNetCoreDI
             }
 
             services.AddTransient<MainPageViewModel>();
-            services.AddTransient<MainPage>();
+            services.AddTransient<Page, MainPage>();
+            services.AddSingleton<App>();
         }
     }
 }

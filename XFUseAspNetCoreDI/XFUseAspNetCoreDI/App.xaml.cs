@@ -6,12 +6,21 @@ namespace XFUseAspNetCoreDI
 {
     public partial class App : Application
     {
-        public App()
+        //public App()
+        //{
+        //    InitializeComponent();
+
+        //    //ServiceProviderからMainPageのインスタンスを取得
+        //    MainPage = Startup.ServiceProvider.GetService<MainPage>();//Xamarin.Forms.Xamlに定義されてる拡張メソッドGetService<T>
+        //}
+
+        public App(Page startupPage)
         {
             InitializeComponent();
 
             //ServiceProviderからMainPageのインスタンスを取得
-            MainPage = Startup.ServiceProvider.GetService<MainPage>();//Xamarin.Forms.Xamlに定義されてる拡張メソッドGetService<T>
+            //MainPage = Startup.ServiceProvider.GetService<MainPage>();//Xamarin.Forms.Xamlに定義されてる拡張メソッドGetService<T>
+            MainPage = startupPage;
         }
 
         protected override void OnStart()
