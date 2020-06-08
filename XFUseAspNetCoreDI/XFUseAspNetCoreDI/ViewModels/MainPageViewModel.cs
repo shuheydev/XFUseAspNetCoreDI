@@ -18,6 +18,7 @@ namespace XFUseAspNetCoreDI.ViewModels
         }
 
         private readonly IDataService _dataService;
+        private readonly INotificationService _notifiCationService;
 
         private ICollection<Person> _people;
         public ICollection<Person> People
@@ -27,6 +28,7 @@ namespace XFUseAspNetCoreDI.ViewModels
         }
 
         public ICommand GetPeopleCommand { get; }
+        public ICommand ShowNotificationCommand { get; }
 
         public MainPageViewModel(IDataService dataService)
         {
@@ -36,6 +38,11 @@ namespace XFUseAspNetCoreDI.ViewModels
             GetPeopleCommand = new Command(_ =>
             {
                 this.People = _dataService.FindAll();
+            });
+
+            _notifiCationService = DependencyService.Get<INotificationService>();
+            ShowNotificationCommand = new Command(_ => {
+                _notifiCationService.ScheduleNotification("My Notification", "This is Test");
             });
         }
     }
