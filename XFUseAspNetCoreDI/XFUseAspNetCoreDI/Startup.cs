@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using Xamarin.Essentials;
@@ -65,6 +66,9 @@ namespace XFUseAspNetCoreDI
             {
                 services.AddSingleton<IDataService, DataService>();
             }
+
+            services.AddHttpClient();//これ
+            //services.AddSingleton<HttpClient>();
 
             services.AddTransient<MainPageViewModel>();
             services.AddTransient<MainPage>();
