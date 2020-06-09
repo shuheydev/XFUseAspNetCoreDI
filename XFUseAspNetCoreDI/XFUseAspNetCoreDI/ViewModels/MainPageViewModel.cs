@@ -33,7 +33,7 @@ namespace XFUseAspNetCoreDI.ViewModels
         private readonly IDataService _dataService;
         private readonly INotificationService _notificationService;
 
-        public MainPageViewModel(IDataService dataService, INotificationService notificationService, SecondPage secondPage)
+        public MainPageViewModel(IDataService dataService = null, INotificationService notificationService = null, SecondPage secondPage = null)
         {
             this.Message = "Hello, Dependency Injection!";
             this._dataService = dataService;

@@ -7,10 +7,10 @@ namespace XFUseAspNetCoreDI
 {
     public partial class App : Application
     {
-        public App(MainPage mainPage)
+        public App(MainPage mainPage = null)
         {
             InitializeComponent();
-            
+
             MainPage = new NavigationPage(mainPage);
         }
 

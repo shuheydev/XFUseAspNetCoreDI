@@ -39,12 +39,13 @@ namespace XFUseAspNetCoreDI.ViewModels
         }
 
         public ICommand GetPrefecturesDataCommand { get; }
-        public SecondPageViewModel(IHttpClientFactory httpClientFactory)
+        public SecondPageViewModel(IHttpClientFactory httpClientFactory = null)
         {
             this.Message = "This is Second page!";
 
             //this._httpClient = httpClientFactory.CreateClient();
-
+            
+            //HttpClientを名前で取得
             this._httpClient = httpClientFactory.CreateClient("covid19_japan");
 
             GetPrefecturesDataCommand = new Command(async (_) =>
