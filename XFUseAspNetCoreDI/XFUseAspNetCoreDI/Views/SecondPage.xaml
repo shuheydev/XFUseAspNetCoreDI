@@ -14,6 +14,31 @@
                 Text="{Binding Message}"
                 TextColor="Green" />
             <Button Command="{Binding GetPrefecturesDataCommand}" Text="Get Prefectures Data" />
+
+            <CollectionView ItemsSource="{Binding PrefecturesData}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Frame Margin="10,5">
+                                <StackLayout>
+                                    <Label
+                                        BackgroundColor="LightPink"
+                                        FontSize="Medium"
+                                        Text="{Binding Name_Ja}" />
+                                    <Label Text="{Binding Population, StringFormat='人口 {0}人'}" />
+                                    <Label Text="{Binding Cases, StringFormat='感染者数 {0}人'}" />
+                                    <Label Text="{Binding Deaths, StringFormat='死亡者数 {0}人'}" />
+                                    <Label Text="{Binding Pcr, StringFormat='PCR検査? {0}人'}" />
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

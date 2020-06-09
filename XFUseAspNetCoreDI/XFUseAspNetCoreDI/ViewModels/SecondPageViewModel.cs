@@ -4,8 +4,12 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Text.Unicode;
 using System.Windows.Input;
+using XFUseAspNetCoreDI.Models.Covid19;
 
 namespace XFUseAspNetCoreDI.ViewModels
 {
@@ -27,6 +31,13 @@ namespace XFUseAspNetCoreDI.ViewModels
         //    this._httpClient = httpClient;
         //}
 
+        private List<Prefecture> _prefecturesData;
+        public List<Prefecture> PrefecturesData
+        {
+            get => _prefecturesData;
+            set => SetProperty(ref _prefecturesData, value);
+        }
+
         public ICommand GetPrefecturesDataCommand { get; }
         public SecondPageViewModel(IHttpClientFactory httpClientFactory)
         {
@@ -44,7 +55,14 @@ namespace XFUseAspNetCoreDI.ViewModels
 
                 //response.EnsureSuccessStatusCode();
 
+                //レスポンスからJSON文字列を取得
                 var prefecturesJsonString = await response.Content.ReadAsStringAsync();
+
+                //JSON文字列をデシリアライズしてList<Prefecture>型のデータに変換
+                var prefecturesData = JsonSerializer.Deserialize<List<Prefecture>>(prefecturesJsonString);
+
+                //プロパティに入れる
+                this.PrefecturesData = prefecturesData;
             });
         }
     }
