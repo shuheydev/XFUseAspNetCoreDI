@@ -67,7 +67,9 @@ namespace XFUseAspNetCoreDI
                 services.AddSingleton<IDataService, DataService>();
             }
 
-            services.AddHttpClient();//これ
+            services.AddHttpClient("covid19_japan", c => {
+                c.BaseAddress = new Uri("https://covid19-japan-web-api.now.sh/api//v1/");
+            });
             //services.AddSingleton<HttpClient>();
 
             services.AddTransient<MainPageViewModel>();
