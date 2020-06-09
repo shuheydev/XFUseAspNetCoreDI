@@ -1,24 +1,17 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using XFUseAspNetCoreDI.Views;
 
 namespace XFUseAspNetCoreDI
 {
     public partial class App : Application
     {
-        //public App()
-        //{
-        //    InitializeComponent();
-
-        //    //ServiceProviderからMainPageのインスタンスを取得
-        //    MainPage = Startup.ServiceProvider.GetService<MainPage>();//Xamarin.Forms.Xamlに定義されてる拡張メソッドGetService<T>
-        //}
-
-        public App(Page startupPage)
+        public App(MainPage mainPage)
         {
             InitializeComponent();
-
-            MainPage = startupPage;
+            
+            MainPage = new NavigationPage(mainPage);
         }
 
         protected override void OnStart()

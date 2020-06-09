@@ -67,7 +67,9 @@ namespace XFUseAspNetCoreDI
             }
 
             services.AddTransient<MainPageViewModel>();
-            services.AddTransient<Page, MainPage>();
+            services.AddTransient<MainPage>();
+            services.AddTransient<SecondPageViewModel>();
+            services.AddTransient<SecondPage>();
             services.AddSingleton<App>();
         }
     }

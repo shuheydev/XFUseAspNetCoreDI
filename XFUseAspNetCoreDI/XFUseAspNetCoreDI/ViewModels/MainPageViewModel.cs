@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using XFUseAspNetCoreDI.Models;
 using XFUseAspNetCoreDI.Services;
+using XFUseAspNetCoreDI.Views;
 
 namespace XFUseAspNetCoreDI.ViewModels
 {
@@ -26,11 +28,12 @@ namespace XFUseAspNetCoreDI.ViewModels
 
         public ICommand GetPeopleCommand { get; }
         public ICommand ShowNotificationCommand { get; }
+        public ICommand NavigateToSecondPageCommand { get; }
 
         private readonly IDataService _dataService;
         private readonly INotificationService _notificationService;
 
-        public MainPageViewModel(IDataService dataService, INotificationService notificationService)
+        public MainPageViewModel(IDataService dataService, INotificationService notificationService, SecondPage secondPage)
         {
             this.Message = "Hello, Dependency Injection!";
             this._dataService = dataService;
@@ -44,6 +47,12 @@ namespace XFUseAspNetCoreDI.ViewModels
             ShowNotificationCommand = new Command(_ =>
             {
                 _notificationService.ScheduleNotification("My Notification", "This is Test");
+            });
+
+            NavigateToSecondPageCommand = new Command(_ =>
+            {
+                //App.Current.MainPage.Navigation.PushAsync(Startup.ServiceProvider.GetService<SecondPage>());
+                App.Current.MainPage.Navigation.PushAsync(secondPage);
             });
         }
     }
