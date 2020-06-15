@@ -71,9 +71,11 @@ namespace XFUseAspNetCoreDI
                 services.AddSingleton<IDataService, DataService>();
             }
 
+            string covid19JapanApiBaseAddress = ctx.Configuration["Covid19_Japan_Api"];
             services.AddHttpClient("covid19_japan", c =>
             {
-                c.BaseAddress = new Uri("https://covid19-japan-web-api.now.sh/api/v1/");
+                c.BaseAddress = new Uri(ctx.Configuration["Covid19_Japan_Api"]);//appsettings.jsonから取得する場合
+                //c.BaseAddress = new Uri("https://covid19-japan-web-api.now.sh/api/v1/");
             });
             //services.AddSingleton<HttpClient>();
 

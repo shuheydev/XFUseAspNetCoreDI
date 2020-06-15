@@ -23,7 +23,8 @@ namespace XFUseAspNetCoreDI.ViewModels
             set => SetProperty(ref _message, value);
         }
 
-        private readonly HttpClient _httpClient;
+        //private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         //public SecondPageViewModel(HttpClient httpClient)
         //{
@@ -42,22 +43,24 @@ namespace XFUseAspNetCoreDI.ViewModels
         public ICommand GetPrefecturesDataCommand { get; }
         public SecondPageViewModel(IHttpClientFactory httpClientFactory = null)
         {
+            this._httpClientFactory = httpClientFactory;
+
             this.Message = "This is Second page!";
 
             //this._httpClient = httpClientFactory.CreateClient();
 
-            //HttpClientを名前で取得
-            this._httpClient = httpClientFactory.CreateClient("covid19_japan");
-
             GetPrefecturesDataCommand = new Command(async (_) =>
             {
+                //HttpClientを名前で取得
+                var httpClient = this._httpClientFactory.CreateClient("covid19_japan");
+
                 List<Prefecture> prefecturesData=null;
                 HttpResponseMessage response = null;
 
                 #region Method1 responseを受け取ってから文字列→System.Text.Jsonを使ってオブジェクトへ
                 //リクエストを投げて,結果を取得する
                 //BaseAddressを予め設定してあるので,BaseAddress以降をパラメータとして与えるだけでよい
-                response = await this._httpClient.GetAsync("prefectures");
+                response = await httpClient.GetAsync("prefectures");
 
                 if(response.IsSuccessStatusCode)
                 {
@@ -78,7 +81,7 @@ namespace XFUseAspNetCoreDI.ViewModels
                 #region Method2 直接オブジェクトに変換する System.Net.Http.Json
                 try
                 {
-                    prefecturesData = await this._httpClient.GetFromJsonAsync<List<Prefecture>>("prefectures");
+                    prefecturesData = await httpClient.GetFromJsonAsync<List<Prefecture>>("prefectures");
                 }
                 catch (Exception ex)
                 {
@@ -87,7 +90,7 @@ namespace XFUseAspNetCoreDI.ViewModels
                 #endregion
 
                 #region Method3 responseのJsonからオブジェクトへ System.Net.Http.Json
-                 response = await this._httpClient.GetAsync("prefectures");
+                 response = await httpClient.GetAsync("prefectures");
 
                 if(response.IsSuccessStatusCode)
                 {
