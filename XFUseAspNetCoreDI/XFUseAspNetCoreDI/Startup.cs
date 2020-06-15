@@ -73,7 +73,7 @@ namespace XFUseAspNetCoreDI
 
             services.AddHttpClient("covid19_japan", c =>
             {
-                c.BaseAddress = new Uri("https://covid19-japan-web-api.now.sh/api//v1/");
+                c.BaseAddress = new Uri("https://covid19-japan-web-api.now.sh/api/v1/");
             });
             //services.AddSingleton<HttpClient>();
 

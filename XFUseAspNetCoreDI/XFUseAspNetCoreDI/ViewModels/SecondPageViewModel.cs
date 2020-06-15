@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -44,23 +45,59 @@ namespace XFUseAspNetCoreDI.ViewModels
             this.Message = "This is Second page!";
 
             //this._httpClient = httpClientFactory.CreateClient();
-            
+
             //HttpClientを名前で取得
             this._httpClient = httpClientFactory.CreateClient("covid19_japan");
 
             GetPrefecturesDataCommand = new Command(async (_) =>
             {
+                List<Prefecture> prefecturesData=null;
+                HttpResponseMessage response = null;
+
+                #region Method1 responseを受け取ってから文字列→System.Text.Jsonを使ってオブジェクトへ
                 //リクエストを投げて,結果を取得する
                 //BaseAddressを予め設定してあるので,BaseAddress以降をパラメータとして与えるだけでよい
-                var response = await this._httpClient.GetAsync("prefectures");
+                response = await this._httpClient.GetAsync("prefectures");
 
-                //response.EnsureSuccessStatusCode();
+                if(response.IsSuccessStatusCode)
+                {
+                    //response.EnsureSuccessStatusCode();
 
-                //レスポンスからJSON文字列を取得
-                var prefecturesJsonString = await response.Content.ReadAsStringAsync();
+                    //レスポンスからJSON文字列を取得
+                    var prefecturesJsonString = await response.Content.ReadAsStringAsync();
 
-                //JSON文字列をデシリアライズしてList<Prefecture>型のデータに変換
-                var prefecturesData = JsonSerializer.Deserialize<List<Prefecture>>(prefecturesJsonString);
+                    //JSON文字列をデシリアライズしてList<Prefecture>型のデータに変換
+                    prefecturesData = JsonSerializer.Deserialize<List<Prefecture>>(prefecturesJsonString);
+                }
+                else
+                {
+
+                }
+                #endregion
+
+                #region Method2 直接オブジェクトに変換する System.Net.Http.Json
+                try
+                {
+                    prefecturesData = await this._httpClient.GetFromJsonAsync<List<Prefecture>>("prefectures");
+                }
+                catch (Exception ex)
+                {
+
+                }
+                #endregion
+
+                #region Method3 responseのJsonからオブジェクトへ System.Net.Http.Json
+                 response = await this._httpClient.GetAsync("prefectures");
+
+                if(response.IsSuccessStatusCode)
+                {
+                    prefecturesData = await response.Content.ReadFromJsonAsync<List<Prefecture>>();
+                }
+                else
+                {
+
+                }
+                #endregion
 
                 //プロパティに入れる
                 this.PrefecturesData = prefecturesData;
