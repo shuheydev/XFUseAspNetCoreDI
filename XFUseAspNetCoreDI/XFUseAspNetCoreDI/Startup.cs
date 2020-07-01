@@ -8,6 +8,7 @@ using XFUseAspNetCoreDI.Services;
 using XFUseAspNetCoreDI.ViewModels;
 using XFUseAspNetCoreDI.Views;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
+using Microsoft.Extensions.Logging;
 
 namespace XFUseAspNetCoreDI
 {
@@ -39,6 +40,10 @@ namespace XFUseAspNetCoreDI
                     nativeConfigureServices(c, x);
                     ConfigureServices(c, x);
                 })
+                .ConfigureLogging(l => l.AddConsole(o =>
+                {
+                    o.DisableColors = true;
+                }))
                 .Build();
 
             ServiceProvider = host.Services;

@@ -1,4 +1,5 @@
-﻿using MvvmHelpers.Commands;
+﻿using Microsoft.Extensions.Logging;
+using MvvmHelpers.Commands;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -41,8 +42,10 @@ namespace XFUseAspNetCoreDI.ViewModels
         }
 
         public ICommand GetPrefecturesDataCommand { get; }
-        public SecondPageViewModel(IHttpClientFactory httpClientFactory = null)
+        public SecondPageViewModel(ILogger<SecondPageViewModel> logger = null, IHttpClientFactory httpClientFactory = null)
         {
+            logger?.LogInformation("Here is SecondPageViewModel!");
+
             this._httpClientFactory = httpClientFactory;
 
             this.Message = "This is Second page!";
@@ -54,7 +57,7 @@ namespace XFUseAspNetCoreDI.ViewModels
                 //HttpClientを名前で取得
                 var httpClient = this._httpClientFactory.CreateClient("covid19_japan");
 
-                List<Prefecture> prefecturesData=null;
+                List<Prefecture> prefecturesData = null;
                 HttpResponseMessage response = null;
 
                 #region Method1 responseを受け取ってから文字列→System.Text.Jsonを使ってオブジェクトへ
@@ -62,7 +65,7 @@ namespace XFUseAspNetCoreDI.ViewModels
                 //BaseAddressを予め設定してあるので,BaseAddress以降をパラメータとして与えるだけでよい
                 response = await httpClient.GetAsync("prefectures");
 
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     //response.EnsureSuccessStatusCode();
 
@@ -90,9 +93,9 @@ namespace XFUseAspNetCoreDI.ViewModels
                 #endregion
 
                 #region Method3 responseのJsonからオブジェクトへ System.Net.Http.Json
-                 response = await httpClient.GetAsync("prefectures");
+                response = await httpClient.GetAsync("prefectures");
 
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     prefecturesData = await response.Content.ReadFromJsonAsync<List<Prefecture>>();
                 }
